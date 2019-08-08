@@ -30,13 +30,14 @@ gcloud compute scp ${FRACTAL_FILE} ${GOOGLE_SERVICE_ACCOUNT_KEY} ${INSTANCE_NAME
 gcloud compute ssh ${INSTANCE_NAME} --force-key-file-overwrite -- '
   pwd && \
   ls -al && \
-  export GOOGLE_APPLICATION_CREDENTIALS="~/gke.json" && \
+  USERDIR=`echo ~` && \
+  export GOOGLE_APPLICATION_CREDENTIALS="$USERDIR/gke.json" && \
   export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s` && \
   echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list && \
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
   sudo apt-get update && \
   sudo apt-get install gcsfuse && \
-  sudo mkdir /disk && \
-  gcsfuse mandelbulber /disk && \
-  ls /disk \
+  mkdir $USERDIR/disk && \
+  gcsfuse mandelbulber $USERDIR/disk && \
+  ls $USERDIR/disk \
 '
