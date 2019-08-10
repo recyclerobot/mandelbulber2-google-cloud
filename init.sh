@@ -21,7 +21,7 @@ gcloud compute instances create ${INSTANCE_NAME} \
   --preemptible \
   --image-family=ubuntu-minimal-1804-lts \
   --image-project=ubuntu-os-cloud \
-  --machine-type=f1-micro
+  --machine-type=n1-highcpu-2
 
 # wait 20 sec for startup
 echo "sleeping for 20 sec (waiting for the instance to boot)..."
@@ -54,5 +54,5 @@ gcloud compute ssh root@${INSTANCE_NAME} --force-key-file-overwrite -- '
     liblzo2-dev && \
   wget https://github.com/buddhi1980/mandelbulber2/releases/download/2.19/mandelbulber2-2.19.tar.gz && \
   mkdir mandelbulber2 && tar -xzf mandelbulber2*.tar.gz -C mandelbulber2 --strip-components=1 && \
-  cd mandelbulber2 && ./install
+  cd mandelbulber2 && echo "y" | ./install
 '
