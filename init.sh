@@ -4,7 +4,6 @@ set -e
 # Set some vars
 INSTANCE_BASE=renderer
 INSTANCE_NAME=${INSTANCE_BASE}-$(date +'%F--%H%M')
-FRACTAL_FILE=./testfile.txt
 GOOGLE_SERVICE_ACCOUNT_KEY=~/Dropbox/Thijs/_BASH/gke.json
 BUCKET_NAME=mandelbulber
 
@@ -29,7 +28,7 @@ sleep 20
 echo "wake up!"
 
 # Send local file to box
-gcloud compute scp ${FRACTAL_FILE} ${GOOGLE_SERVICE_ACCOUNT_KEY} root@${INSTANCE_NAME}:~ --force-key-file-overwrite
+gcloud compute scp ${GOOGLE_SERVICE_ACCOUNT_KEY} root@${INSTANCE_NAME}:~ --force-key-file-overwrite
 
 # SSH Into the box 
 # - mount bucket as disk
@@ -54,5 +53,6 @@ gcloud compute ssh root@${INSTANCE_NAME} --force-key-file-overwrite -- '
     liblzo2-dev && \
   wget https://github.com/buddhi1980/mandelbulber2/releases/download/2.19/mandelbulber2-2.19.tar.gz && \
   mkdir mandelbulber2 && tar -xzf mandelbulber2*.tar.gz -C mandelbulber2 --strip-components=1 && \
-  cd mandelbulber2 && echo "y" | ./install
+  cd mandelbulber2 && echo "y" | ./install && \
+  FRACTAL_FILE=`find $USERDIR/disk/*.fract` && echo $FRACTAL_FILE && mandelbulber2 -o $USERDIR/disk -K -n $USERDIR/disk/$FRACTAL_FILE
 '
