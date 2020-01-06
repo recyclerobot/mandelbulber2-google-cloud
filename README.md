@@ -11,9 +11,21 @@
 gcloud init
 ```
 
+3. Create a bucket called `mandelbulber` and add mandelbulber2 linux binary in there, as well as a `input` directory, which contains your `*.fract` file
+
+so:
+
+```
+bucket: mandelbulber
+  |- mandelbulber exec
+  |- input
+    |- something.fract
+```
+
 3. Run Script!
 
 ```
 chmod +x init.sh
 ./init.sh
+
 ```

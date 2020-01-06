@@ -6,14 +6,14 @@ INSTANCE_BASE=renderer
 INSTANCE_NAME=${INSTANCE_BASE}-$(date +'%F--%H%M')
 GOOGLE_SERVICE_ACCOUNT_KEY=~/Dropbox/Thijs/_BASH/gke.json
 BUCKET_NAME=mandelbulber
-PROJECT=$1
+# PROJECT=$1
 
-if [ -z "$PROJECT" ]; then
-  echo "[ X ] Error! No Input path defined, pass in project path as parameter to continue"
-  exit 0
-fi
+# if [ -z "$PROJECT" ]; then
+#   echo "[ X ] Error! No Input path defined, pass in project path as parameter to continue"
+#   exit 0
+# fi
 
-echo "PROJECT: $PROJECT"
+# echo "PROJECT: $PROJECT"
 
 # Remove any previous instance
 # !!! Will remove any instance running in your account !!!
@@ -57,7 +57,7 @@ gcloud compute ssh root@${INSTANCE_NAME} --force-key-file-overwrite -- '
     libsndfile1-dev qtmultimedia5-dev libqt5multimedia5-plugins liblzo2-2 \
     liblzo2-dev && \
   cp /root/disk/mandelbulber2 /root && chmod +x /root/mandelbulber2 && \
-  FRACTAL_PROJECT_PATH=/root/disk/raketkanon && mkdir -p $FRACTAL_PROJECT_PATH/output && \
+  FRACTAL_PROJECT_PATH=/root/disk/input && mkdir -p $FRACTAL_PROJECT_PATH/output && \
   FRACTAL_FILE_FULL_PATH=`find $FRACTAL_PROJECT_PATH -name "*.fract"` && echo "FRACTALFULLPATH: $FRACTAL_FILE_FULL_PATH" && \
   FRACTAL_NAME=`basename $FRACTAL_FILE_FULL_PATH` && FRACTAL_NAME=${FRACTAL_NAME%.*} && echo "FRACTALNAME: $FRACTAL_NAME" && \
   nohup /root/mandelbulber2 -o $FRACTAL_PROJECT_PATH/output/ -K -n $FRACTAL_FILE_FULL_PATH > $FRACTAL_PROJECT_PATH/$FRACTAL_NAME_`date +%s`.log 2>&1 \
