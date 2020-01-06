@@ -22,10 +22,10 @@ bucket: mandelbulber
     |- something.fract
 ```
 
-3. Run Script!
+3. Run the Script with a unique project name (will be used to ID your instance, nothing else)
 
 ```
 chmod +x init.sh
-./init.sh
+./init.sh myUniqueId
 
 ```

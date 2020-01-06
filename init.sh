@@ -6,14 +6,14 @@ INSTANCE_BASE=renderer
 INSTANCE_NAME=${INSTANCE_BASE}-$(date +'%F--%H%M')
 GOOGLE_SERVICE_ACCOUNT_KEY=~/Dropbox/Thijs/_BASH/gke.json
 BUCKET_NAME=mandelbulber
-# PROJECT=$1
+PROJECT=$1
 
-# if [ -z "$PROJECT" ]; then
-#   echo "[ X ] Error! No Input path defined, pass in project path as parameter to continue"
-#   exit 0
-# fi
+if [ -z "$PROJECT" ]; then
+  echo "[ X ] Error! No Input path defined, pass in project path as parameter to continue"
+  exit 0
+fi
 
-# echo "PROJECT: $PROJECT"
+echo "PROJECT: $PROJECT"
 
 # Remove any previous instance
 # !!! Will remove any instance running in your account !!!
