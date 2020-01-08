@@ -11,15 +11,16 @@
 gcloud init
 ```
 
-3. Create a bucket called `mandelbulber` and add mandelbulber2 linux binary in there, as well as a `input` directory, which contains your `*.fract` file
+3. Create a bucket called `mandelbulber`, and add the contents of the `bucket` folder in there
 
 so:
 
 ```
 bucket: mandelbulber
   |- mandelbulber exec
+  |- render.sh
   |- input
-    |- something.fract
+    |- yourfractal.fract
 ```
 
 3. Run the Script with a unique project name (will be used to ID your instance, nothing else)
@@ -29,3 +30,5 @@ chmod +x init.sh
 ./init.sh myUniqueId
 
 ```
+
+the script will run and resume automatically
