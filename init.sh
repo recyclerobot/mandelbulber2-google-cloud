@@ -31,8 +31,8 @@ gcloud compute instances create ${INSTANCE_NAME} \
   --machine-type=n1-highcpu-16
 
 # wait 20 sec for startup
-echo "sleeping for 20 sec (waiting for the instance to boot)..."
-sleep 20
+echo "sleeping for 30 sec (waiting for the instance to boot)..."
+sleep 30
 echo "wake up!"
 
 # Send local file to box
@@ -60,7 +60,13 @@ gcloud compute ssh root@${INSTANCE_NAME} --force-key-file-overwrite -- '
   FRACTAL_PROJECT_PATH=/root/disk/input && mkdir -p $FRACTAL_PROJECT_PATH/output && \
   FRACTAL_FILE_FULL_PATH=`find $FRACTAL_PROJECT_PATH -name "*.fract"` && echo "FRACTALFULLPATH: $FRACTAL_FILE_FULL_PATH" && \
   FRACTAL_NAME=`basename $FRACTAL_FILE_FULL_PATH` && FRACTAL_NAME=${FRACTAL_NAME%.*} && echo "FRACTALNAME: $FRACTAL_NAME" && \
-  nohup /root/mandelbulber2 -o $FRACTAL_PROJECT_PATH/output/ -K -n $FRACTAL_FILE_FULL_PATH > $FRACTAL_PROJECT_PATH/$FRACTAL_NAME_`date +%s`.log 2>&1 \
+  FILEARR=(/root/disk/input/output/frame*(N)) && \
+  echo FILEARR = $FILEARR && \
+  LASTFILE=${FILEARR[-1]#/root/disk/input/output/frame_} && \
+  LASTFILENR=${${LASTFILE##+(0)}/.png/} && \
+  if [ -z "$LASTFILENR" ]; then LASTFILENR=-1; fi && \
+  NEXTFILENR=$((LASTFILENR + 1)) && \
+  nohup /root/mandelbulber2 -o $FRACTAL_PROJECT_PATH/output/ -K -n -s ${NEXTFILENR} $FRACTAL_FILE_FULL_PATH > $FRACTAL_PROJECT_PATH/$FRACTAL_NAME_`date +%s`.log 2>&1 \
 ' &
 
 # wget https://github.com/buddhi1980/mandelbulber2/releases/download/2.19/mandelbulber2-2.19.tar.gz && \
